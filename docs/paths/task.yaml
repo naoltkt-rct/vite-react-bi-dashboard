@@ -1,0 +1,111 @@
+get:
+  tags:
+    - tasks
+  summary: 案件一覧を取得
+  parameters:
+    - name: page
+      in: query
+      description: ページ番号
+      required: false
+      schema:
+        type: integer
+        example: 1
+    - name: limit
+      in: query
+      description: 件数
+      required: false
+      schema:
+        type: integer
+        example: 10
+    - name: query
+      in: query
+      description: 検索キーワード
+      required: false
+      schema:
+        type: string
+        example: 案件名
+    - name: total
+      in: query
+      description: 合計値
+      required: false
+      schema:
+        type: integer
+        example: 10
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              total:
+                type: integer
+                example: 10
+              items:
+                type: array
+                items:
+                  $ref: '../components/schemas/task.yaml#/components/schemas/Task'
+            required:
+              - total
+              - items
+post:
+  tags:
+    - tasks
+  summary: 案件を登録
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/task.yaml#/components/schemas/TaskDetails'
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: tasks_uuid_123456
+            required:
+              - id
+put:
+  tags:
+    - tasks
+  summary: 案件を更新
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/task.yaml#/components/schemas/TaskDetails'
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            nullable: true
+
+delete:
+  tags:
+    - tasks
+  summary: 案件を削除
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            ids:
+              type: array
+              items:
+                type: string
+                description: 案件ID
+                example: tasks_uuid_123456
+          required:
+            - ids
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            nullable: true

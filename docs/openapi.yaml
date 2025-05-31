@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  title: vite-react-typescript-vanilla-extract
+  version: 1.0.0
+  description: Vite + React + TypeScript + Vanilla Extract
+servers:
+  - url: http://localhost:18080
+tags:
+  - name: tasks
+  - name: users
+paths:
+  /api/v1/tasks:
+    $ref: ./paths/task.yaml
+  /api/v1/tasks/{id}:
+    $ref: ./paths/taskDetails.yaml
+  /api/v1/tasks/assignments:
+    $ref: ./paths/taskAssignments.yaml
+  /api/v1/users:
+    $ref: ./paths/user.yaml
+  /api/v1/users/{id}:
+    $ref: ./paths/userDetails.yaml
+  /api/v1/users/assignments:
+    $ref: ./paths/userAssignments.yaml
+  /api/v1/users/over-capacity:
+    $ref: ./paths/userOverCapacity.yaml
+  /api/v1/users/info:
+    $ref: ./paths/userInfo.yaml
+  /api/v1/users/login:
+    $ref: ./paths/userLogin.yaml
+  /api/v1/users/logout:
+    $ref: ./paths/userLogout.yaml

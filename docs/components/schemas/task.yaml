@@ -1,0 +1,221 @@
+components:
+  schemas:
+    TaskBase:
+      properties:
+        id:
+          type: string
+          description: 案件ID
+          example: tasks_uuid_123456
+        name:
+          type: string
+          description: 案件名
+          example: 案件名_0_abcDEF
+        priority:
+          type: string
+          enum: ['high', 'middle', 'low']
+          description: |
+            優先度:
+            - high: 高
+            - middle: 中
+            - low: 低
+        status:
+          type: string
+          enum: ['waiting', 'processing', 'completed', 'done']
+          description: |
+            状態:
+            - waiting: 未対応
+            - processing: 対応中
+            - completed: 対応済み
+            - done: 完了
+        startDate:
+          type: string
+          format: date-time
+          description: 開始日（YYYY-MM-DDTHH:MM:SS.SSSZ）
+        endDate:
+          type: string
+          format: date-time
+          description: 期限日（YYYY-MM-DDTHH:MM:SS.SSSZ）
+        companyName:
+          type: string
+          description: 依頼元（会社）
+          example: 会社名_0_abcDEF
+        clientName:
+          type: string
+          description: 依頼元（名前）
+          example: 担当 太郎
+        remarks:
+          type: string
+          description: 備考
+          example: 備考_0_abcDEF備考_0_abcDEF備考_0_abcDEF備考_0_abcDEF
+      required:
+        - id
+        - name
+        - priority
+        - status
+        - description
+        - startDate
+        - endDate
+        - companyName
+        - clientName
+    TaskAssignment:
+      type: object
+      properties:
+        assignmentName:
+          type: string
+          description: 子課題名
+          example: 子課題名_1_GHIjkl
+        status:
+          type: string
+          enum: ['waiting', 'processing', 'completed', 'done']
+          description: |
+            状態:
+            - waiting: 未対応
+            - processing: 対応中
+            - completed: 対応済み
+            - done: 完了
+        jobType:
+          type: string
+          enum: ['director', 'designer', 'frontend', 'backend']
+          description: |
+            職種:
+            - director: ディレクター
+            - designer: デザイナー
+            - frontend: フロントエンドエンジニア
+            - backend: バックエンドエンジニア
+        startDate:
+          type: string
+          description: 開始日（yyyy-MM-dd）
+          example: 2025-01-01
+        endDate:
+          type: string
+          description: 期限日（yyyy-MM-dd）
+          example: 2025-01-01
+        assignmentId:
+          type: string
+          description: 案件に割り当てられたユーザーID
+          example: 000000-0000-AAAA-BCDE-FGHIJK
+    Task:
+      allOf:
+        - $ref: '#/components/schemas/TaskBase'
+    TaskDetails:
+      allOf:
+        - $ref: '#/components/schemas/TaskBase'
+        - type: object
+          properties:
+            assignments:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: 子課題ID
+                    example: 123456-7890-AAAA-BCDE-FGHIJK
+                allOf:
+                  - $ref: '#/components/schemas/TaskAssignment'
+                required:
+                  - id
+                  - assignmentName
+                  - status
+                  - jobType
+                  - startDate
+                  - endDate
+          required:
+            - assignments
+    TaskAssignments:
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: ユーザーID
+            example: 123456-7890-aaaa-bcde-fghijk
+          username:
+            type: string
+            description: ユーザー名
+            example: ユーザー名
+          gender:
+            type: string
+            enum: ['MALE', 'FEMALE', 'OTHER']
+            description: |
+              性別:
+              - MALE: 男性
+              - FEMALE: 女性
+              - OTHER: その他
+            example: MALE
+          assignments:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: 子課題ID
+                  example: 123456-7890-AAAA-BCDE-FGHIJK
+                parentAssignmentName:
+                  type: string
+                  description: 親課題名
+                  example: 親課題名_1_GHIjkl
+                parentAssignmentId:
+                  type: string
+                  description: 親課題ID
+                  example: tasks_uuid_123456
+                parentAssignmentPriority:
+                  type: string
+                  enum: ['high', 'middle', 'low']
+                  description: |
+                    優先度:
+                    - high: 高
+                    - middle: 中
+                    - low: 低
+                  example: high
+              allOf:
+                - $ref: '#/components/schemas/TaskAssignment'
+              required:
+                - id
+                - parentAssignmentName
+                - parentAssignmentId
+                - parentAssignmentPriority
+                - assignmentName
+                - status
+                - jobType
+                - startDate
+                - endDate
+                - assignmentId
+        required:
+          - id
+          - username
+          - gender
+          - assignments
+    TaskWithOccupancy:
+      allOf:
+        - $ref: '#/components/schemas/TaskBase'
+        - type: object
+          properties:
+            occupancyRate:
+              type: number
+              description: ユーザーに割り当てられた案件の稼働率
+              multipleOf: 0.1
+              example: 99.9
+      required:
+        - occupancyRate
+    TasksAssignmentUser:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+          example: 123456-7890-aaaa-bcde-fghijk
+        totalOccupancyRate:
+          type: number
+          description: ユーザーに割り当てられた案件の稼働率の合計
+          multipleOf: 0.1
+          example: 99.9
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskWithOccupancy'
+      required:
+        - id
+        - totalOccupancyRate
+        - tasks

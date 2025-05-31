@@ -1,0 +1,25 @@
+post:
+  tags:
+    - tasks
+  summary: ユーザーに紐づく案件情報を取得
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            ids:
+              type: array
+              description: ユーザーIDの配列
+              items:
+                type: string
+                description: ユーザーID
+                example: 123456-7890-aaaa-bcde-fghijk
+          required:
+            - ids
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/task.yaml#/components/schemas/TaskAssignments'

@@ -1,0 +1,10 @@
+post:
+  tags:
+    - users
+  summary: ログアウト
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            nullable: true

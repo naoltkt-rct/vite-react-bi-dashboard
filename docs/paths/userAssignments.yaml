@@ -1,0 +1,42 @@
+post:
+  tags:
+    - users
+  summary: 案件に紐づくユーザー情報を取得
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            assignments:
+              type: array
+              description: 案件IDの配列
+              items:
+                type: object
+                properties:
+                  assignmentId:
+                    type: string
+                    description: 案件ID
+                    example: tasks_uuid_123456
+                  jobType:
+                    type: string
+                    enum: ['director', 'designer', 'frontend', 'backend']
+                    description: |
+                      職種:
+                      - director: ディレクター
+                      - designer: デザイナー
+                      - frontend: フロントエンドエンジニア
+                      - backend: バックエンドエンジニア
+                required:
+                  - assignmentId
+                  - jobType
+          required:
+            - assignments
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../components/schemas/user.yaml#/components/schemas/UsersAssignmentTask'
