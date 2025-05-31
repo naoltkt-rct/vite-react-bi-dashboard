@@ -1,0 +1,57 @@
+post:
+  tags:
+    - users
+  summary: ログイン
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+              description: ユーザー名
+              example: ユーザー名
+            password:
+              type: string
+              description: パスワード
+              example: パスワード
+          required:
+            - username
+            - password
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: メッセージ
+                example: ''
+              status:
+                type: integer
+                description: ステータス
+                example: 200
+            required:
+              - message
+              - status
+    '401':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: メッセージ
+                example: 無効なユーザー名またはパスワードです
+              status:
+                type: integer
+                description: ステータス
+                example: 401
+            required:
+              - message
+              - status

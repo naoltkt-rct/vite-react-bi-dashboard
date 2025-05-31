@@ -1,0 +1,18 @@
+get:
+  tags:
+    - tasks
+  summary: 案件詳細を取得
+  parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      description: 案件ID
+      example: tasks_uuid_123456
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/task.yaml#/components/schemas/TaskDetails'

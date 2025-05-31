@@ -1,0 +1,63 @@
+get:
+  tags:
+    - users
+  summary: ユーザー情報を取得
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/user.yaml#/components/schemas/UserInfo'
+
+put:
+  tags:
+    - users
+  summary: ユーザー情報を更新
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              description: ユーザーID
+              example: users_uuid_123456
+            organization:
+              type: string
+              description: 会社名
+              example: 会社名_0_abcDEF
+            authority:
+              type: string
+              description: |
+                権限:
+                - ADMINISTRATOR: 管理者
+                - USER: ユーザー
+              example: ADMINISTRATOR
+            username:
+              type: string
+              description: ユーザー名
+              example: ユーザー名
+            email:
+              type: string
+              format: email
+              description: メールアドレス
+            avatar:
+              type: string
+              format: base64
+              description: プロフィール画像のBase64
+              example: "[Base64 encoded image data]"
+          required:
+            - id
+            - organization
+            - authority
+            - username
+            - email
+                
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            nullable: true

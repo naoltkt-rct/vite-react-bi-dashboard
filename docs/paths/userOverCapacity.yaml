@@ -1,0 +1,14 @@
+get:
+  tags:
+    - users
+  summary: 稼働率が上限を超えているユーザー一覧を取得
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+              description: ユーザーID
+              example: users_uuid_123456

@@ -1,0 +1,184 @@
+components:
+  schemas:
+    UserBase:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+          example: users_uuid_123456
+        username:
+          type: string
+          description: ユーザー名
+          example: ユーザー名
+        gender:
+          type: string
+          enum: ['MALE', 'FEMALE', 'OTHER']
+          description: |
+            性別:
+            - MALE: 男性
+            - FEMALE: 女性
+            - OTHER: その他
+          example: MALE
+        age:
+          type: integer
+          description: 年齢
+          example: 25
+        department:
+          type: string
+          description: 部署
+          example: 部署名_0_abcDEF
+        job:
+          type: string
+          enum: ['director', 'designer', 'frontend', 'backend']
+          description: |
+            職種:
+            - director: ディレクター
+            - designer: デザイナー
+            - frontend: フロントエンドエンジニア
+            - backend: バックエンドエンジニア
+        startDate:
+          type: string
+          format: date-time
+          description: 入社日（YYYY-MM-DDTHH:MM:SS.SSSZ）
+        endDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: |
+            退社日（YYYY-MM-DDTHH:MM:SS.SSSZ）
+            - null: 退社日が未設定
+
+    User:
+      allOf:
+        - $ref: '#/components/schemas/UserBase'
+        - type: object
+          properties:
+            totalOccupancyRate:
+              type: number
+              description: ユーザーに割り当てられた案件の稼働率の合計
+              multipleOf: 0.1
+              example: 99.9
+            remarks:
+              type: string
+              nullable: true
+              description: 備考
+              example: 備考_0_abcDEF備考_0_abcDEF備考_0_abcDEF備考_0_abcDEF
+          required:
+            - id
+            - username
+            - gender
+            - age
+            - department
+            - job
+            - startDate
+            - endDate
+            - totalOccupancyRate
+            - remarks
+
+    UserDetails:
+      allOf:
+        - $ref: '#/components/schemas/UserBase'
+        - type: object
+          properties:
+            remarks:
+              type: string
+              nullable: true
+              description: 備考
+              example: 備考_0_abcDEF備考_0_abcDEF備考_0_abcDEF備考_0_abcDEF
+          required:
+            - id
+            - username
+            - gender
+            - age
+            - department
+            - job
+            - startDate
+
+    UsersAssignmentTask:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+          example: 123456-7890-aaaa-bcde-fghijk
+        username:
+          type: string
+          description: ユーザー名
+          example: ユーザー名
+        job:
+          type: string
+          enum: ['director', 'designer', 'frontend', 'backend']
+          description: |
+            職種:
+            - director: ディレクター
+            - designer: デザイナー
+            - frontend: フロントエンドエンジニア
+            - backend: バックエンドエンジニア
+          example: frontend
+      required:
+        - id
+        - username
+        - job
+
+    UserInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+          example: users_uuid_123456
+        organization:
+          type: string
+          description: 会社名
+          example: 会社名_0_abcDEF
+        authority:
+          type: string
+          enum: ['ADMINISTRATOR', 'USER']
+          description: |
+            権限:
+            - ADMINISTRATOR: 管理者
+            - USER: ユーザー
+          example: ADMINISTRATOR
+        username:
+          type: string
+          description: ユーザー名
+          example: ユーザー名
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+          example: メールアドレス
+        avatar:
+          type: string
+          format: uri
+          description: プロフィール画像のURL
+          example: プロフィール画像のURL
+        status:
+          type: string
+          enum: ['ACTIVE', 'INACTIVE']
+          description: |
+            状態:
+            - ACTIVE: 有効
+            - INACTIVE: 無効
+          example: ACTIVE
+      required:
+        - id
+        - organization
+        - authority
+        - username
+        - email
+        - status
+
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: users_uuid_123456
+            required:
+              - id
